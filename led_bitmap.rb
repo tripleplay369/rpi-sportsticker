@@ -251,6 +251,12 @@ class LEDBitmap
                    ' +' +
                    '8+' +
                    ' +',
+            '-' => '  +' +
+                   '  +' +
+                   '88+' +
+                   '  +' +
+                   '  +' +
+                   '  +',
   }
 
   def self.get_line_width(line)
@@ -300,9 +306,6 @@ class LEDBitmap
 
     bitmap[:width] = max_len
     bitmap[:data] = blank_line(max_len) + line1_bitmap + blank_line(max_len) + line2_bitmap + blank_line(max_len) + blank_line(max_len)
-
-    puts bitmap[:data].scan(/.{#{max_len}}|.+/).join("\n")
-
     bitmap[:data].gsub!(/ /, "0").gsub!(/8/, "1")
 
     bitmap

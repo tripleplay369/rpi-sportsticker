@@ -63,7 +63,8 @@ class SportsFeed
              'NHL' => 'nhl',
             }
 
-    scores = {}
+    scores = {leagues:{}}
+    num = 0
     feeds.each do |league_name, feed|
       url = "http://sports.espn.go.com/#{feed}/bottomline/scores"
       response = CGI::parse(Net::HTTP.get_response(URI.parse(url)).body)
@@ -72,11 +73,14 @@ class SportsFeed
       response.each do |key, value|
         if !(key =~ /#{feed}_s_left\d/).nil?
           league_scores << value[0]
+          num += 1
         end
       end
 
-      scores[league_name] = league_scores
+      scores[:leagues][league_name] = league_scores
     end
+
+    scores[:num] = num
 
     scores
   end
