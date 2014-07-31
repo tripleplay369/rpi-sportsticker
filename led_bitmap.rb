@@ -258,23 +258,21 @@ class LEDBitmap
                    '  +' +
                    '  +',
   }
+  @@lines_per_char = 6
 
   def self.get_line_width(line)
-    lines_per_char = 6
     total = 0
     line.each_char do |c|
-      total += @@font[c].length / lines_per_char
+      total += @@font[c].length / @@lines_per_char
     end
 
     total
   end
 
   def self.get_line_bitmap(line, length, max_length)
-    char_height = 6
-
     line_bitmap = ""
     line_length = 0
-    for i in 0...char_height
+    for i in 0...@@lines_per_char
       line.each_char do |c|
         char_bitmap = @@font[c]
         line_bitmap += char_bitmap.split('+')[i] + " "
