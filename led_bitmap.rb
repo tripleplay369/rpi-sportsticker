@@ -270,9 +270,11 @@ class LEDBitmap
   end
 
   def self.get_line_bitmap(line, length, max_length)
+    char_height = 6
+
     line_bitmap = ""
     line_length = 0
-    for i in 0...6
+    for i in 0...char_height
       line.each_char do |c|
         char_bitmap = @@font[c]
         line_bitmap += char_bitmap.split('+')[i] + " "
