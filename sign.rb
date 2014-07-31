@@ -41,8 +41,10 @@ class Sign
   end
 
   def self.write_to_sign(bitmap)
-    bitmap[:data].gsub!(/0/, " ").gsub!(/1/, "8")
-    puts bitmap[:data].scan(/.{#{bitmap[:width]}}|.+/).join("\n")
+    # bitmap[:data].gsub!(/0/, " ").gsub!(/1/, "8")
+    # puts bitmap[:data].scan(/.{#{bitmap[:width]}}|.+/).join("\n")
+
+    `perl write.pl #{bitmap[:height]} #{bitmap[:width]} #{bitmap[:data]}`
   end
 
   def self.refresh_scores
@@ -70,8 +72,8 @@ class Sign
   end
 
   def self.run
-    scores_refresh_time = 30
-    display_refresh_time = 5
+    scores_refresh_time = 120
+    display_refresh_time = 10
 
     timers = Timers::Group.new
 

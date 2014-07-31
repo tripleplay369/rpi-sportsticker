@@ -295,11 +295,13 @@ class LEDBitmap
   end
 
   def self.make_bitmap(line1, line2)
+    fixed_max_len = 256
+
     bitmap = {height: 16, width: 0, data: ""}
 
     line1_len = get_line_width(line1)
     line2_len = get_line_width(line2)
-    max_len = [line1_len, line2_len].max
+    max_len = fixed_max_len
 
     line1_bitmap = get_line_bitmap(line1, line1_len, max_len)
     line2_bitmap = get_line_bitmap(line2, line2_len, max_len)
