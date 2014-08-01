@@ -26,15 +26,15 @@ class Sign
     score2 = components[1]
     status = components[2]
 
-    line1 = score1
-    line2 = score2
+    line1 = nil
+    line2 = nil
 
     if score1.length > score2.length
-      line2 = status + " " + line2
-      line1 = "(" + league_str.downcase + ") " + line1
+      line2 = status + " " + score2
+      line1 = "(" + league_str.downcase + ") " + score1
     else
-      line1 = status + " " + line1
-      line2 = "(" + league_str.downcase + ") " + line2
+      line1 = status + " " + score1
+      line2 = "(" + league_str.downcase + ") " + score2
     end
 
     LEDBitmap.make_bitmap(line1, line2)
