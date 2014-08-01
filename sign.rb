@@ -30,11 +30,11 @@ class Sign
     line2 = score2
 
     if score1.length > score2.length
-      line2 += " " + status
-      line1 += " (" + league_str.downcase + ")"
+      line2 = status + " " + line2
+      line1 = "(" + league_str.downcase + ") " + line1
     else
-      line1 += " " + status
-      line2 += " (" + league_str.downcase + ")"
+      line1 = status + " " + line1
+      line2 = "(" + league_str.downcase + ") " + line2
     end
 
     LEDBitmap.make_bitmap(line1, line2)
@@ -73,7 +73,7 @@ class Sign
 
   def self.run
     scores_refresh_time = 120
-    display_refresh_time = 10
+    display_refresh_time = 12
 
     timers = Timers::Group.new
 
