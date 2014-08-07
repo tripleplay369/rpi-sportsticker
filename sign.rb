@@ -14,7 +14,6 @@ class Sign
     score_str = String.new score_str
 
     score_str.downcase!.gsub!(/\^/, "*")
-    score_str.gsub!(/ - /, "-")
 
     components = score_str.scan(/^(.*)   (.*) (\(.*\))$/)[0]
 
