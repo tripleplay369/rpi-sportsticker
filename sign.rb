@@ -52,12 +52,10 @@ class Sign
         i = 0
         @scores[:leagues].each do |league_name, league_scores|
           league_scores.each do |score|
-            unless score.include? ':' # this is a score and not a schedule
-              if i == @current_index
-                write_to_sign(get_bitmap_for_score(league_name, score))
-              end
-              i += 1
+            if i == @current_index
+              write_to_sign(get_bitmap_for_score(league_name, score))
             end
+            i += 1
           end
         end
       end
