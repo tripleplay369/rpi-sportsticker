@@ -71,7 +71,7 @@ class SportsFeed
       
       league_scores = []
       response.each do |key, value|
-        if !(key =~ /#{feed}_s_left\d/).nil? && !value[0].include?(' ET)') # means schedule, not score
+        if !(key =~ /#{feed}_s_left\d/).nil?
           league_scores << value[0]
           num += 1
         end
