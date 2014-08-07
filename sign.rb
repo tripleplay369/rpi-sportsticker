@@ -26,16 +26,8 @@ class Sign
     score2 = components[1]
     status = components[2]
 
-    line1 = nil
-    line2 = nil
-
-    if score1.length > score2.length
-      line2 = status + " " + score2
-      line1 = "(" + league_str.downcase + ") " + score1
-    else
-      line1 = status + " " + score1
-      line2 = "(" + league_str.downcase + ") " + score2
-    end
+    line1 = "(" + league_str.downcase + ") " + score1
+    line2 = status + " " + score2
 
     LEDBitmap.make_bitmap(line1, line2)
   end
@@ -60,10 +52,12 @@ class Sign
         i = 0
         @scores[:leagues].each do |league_name, league_scores|
           league_scores.each do |score|
-            if i == @current_index
-              write_to_sign(get_bitmap_for_score(league_name, score))
+            unless score.include? ':' # this is a score and not a schedule
+              if i == @current_index
+                write_to_sign(get_bitmap_for_score(league_name, score))
+              end
+              i += 1
             end
-            i += 1
           end
         end
       end
