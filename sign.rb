@@ -26,6 +26,11 @@ class Sign
     score2 = components[1]
     status = components[2]
 
+    status_components = status.scan(/\(.* in (.*)\)/)[0]
+    unless status_components.nil?
+      status = "(" + status_components[0] + ")"
+    end
+
     line1 = "(" + league_str.downcase + ") " + score1
     line2 = status + " " + score2
 
