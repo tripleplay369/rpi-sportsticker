@@ -7,4 +7,4 @@ my $data = $ARGV[2];
 
 my $pic = $sign->addPix(height => $height, width => $width, data => $data);
 $sign->addMsg(data => $pic, effect => "scroll", speed => 1);
-$sign->send(device => "/dev/ttyUSB0");
+$sign->send(device => "/dev/ttyUSB0", packetdelay => 0.3);

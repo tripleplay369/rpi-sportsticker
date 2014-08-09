@@ -70,7 +70,7 @@ class Sign
 
   def self.run
     scores_refresh_time = 120
-    display_refresh_time = 12
+    display_refresh_time = 14
 
     timers = Timers::Group.new
 
