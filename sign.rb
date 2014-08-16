@@ -46,7 +46,10 @@ class Sign
 
   def self.refresh_scores
     @lock.synchronize do
-      @scores = SportsFeed.get_scores
+      begin
+        @scores = SportsFeed.get_scores
+      rescue
+      end
     end
   end
 
