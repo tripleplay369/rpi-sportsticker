@@ -1,6 +1,5 @@
 LOCKFILE=/tmp/lock.txt
 if [ -e ${LOCKFILE} ] && kill -0 `cat ${LOCKFILE}`; then
-    echo "already running"
     exit
 fi
 
