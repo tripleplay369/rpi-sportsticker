@@ -8,35 +8,6 @@ class Sign
   @current_index = 0
   @lock = Mutex.new
 
-  def self.get_bitmap_for_score(league_str, score_str)
-    # string is like:
-    # "Pittsburgh 0   San Francisco 0 (TOP 1ST)"
-    score_str = String.new score_str
-
-    score_str.downcase!.gsub!(/\^/, "*")
-    score_str.gsub!(/ - /, " ")
-
-    components = score_str.scan(/^(.*)   (.*) (\(.*\))$/)[0]
-
-    if components.nil? # game hasn't started yet
-      components = score_str.scan(/^(.* at) (.*) (\(.*\))$/)[0]
-    end
-
-    score1 = components[0]
-    score2 = components[1]
-    status = components[2]
-
-    status_components = status.scan(/\(.* in (.*)\)/)[0]
-    unless status_components.nil?
-      status = "(" + status_components[0] + ")"
-    end
-
-    line1 = "(" + league_str.downcase + ") " + score1
-    line2 = status + " " + score2
-
-    LEDBitmap.make_bitmap(line1, line2)
-  end
-
   def self.write_to_sign(bitmap)
     # bitmap[:data].gsub!(/0/, " ").gsub!(/1/, "8")
     # puts bitmap[:data].scan(/.{#{bitmap[:width]}}|.+/).join("\n")
@@ -45,11 +16,13 @@ class Sign
   end
 
   def self.refresh_scores
+    begin
+      scores = SportsFeed.get_scores
+    rescue
+    end
+
     @lock.synchronize do
-      begin
-        @scores = SportsFeed.get_scores
-      rescue
-      end
+      @scores = scores
     end
   end
 
@@ -61,7 +34,7 @@ class Sign
         @scores[:leagues].each do |league_name, league_scores|
           league_scores.each do |score|
             if i == @current_index
-              write_to_sign(get_bitmap_for_score(league_name, score))
+              write_to_sign(LEDBitmap.make_bitmap(score[0], score[1]))
             end
             i += 1
           end
