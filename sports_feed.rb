@@ -19,9 +19,9 @@ class SportsFeed
           if my_leagues.include? league["league"]
             league_scores = []
             league["games"].each do |game|
-              line1 = "(" + league["league"] + ") " + game["away"]["location"] + " " + game["away"]["nickname"] + (game["status"] == 1 ? " at" : " " + game["away"]["score"].to_i.to_s)
-              line2 = "(" + game["statusText"] + ") " + game["home"]["location"] + " " + game["home"]["nickname"] + (game["status"] == 1 ? "" : " " + game["home"]["score"].to_i.to_s)
-              league_scores << [line1.downcase!, line2.downcase!]
+              line1 = "(" + league["league"] + ") " + game["away"]["nickname"] + (game["status"] == 1 ? " at" : " " + game["away"]["score"].to_i.to_s)
+              line2 = "(" + ((game["clock"] != nil && game["clock"] != "") ? (game["clock"] + " ") : "") + game["statusText"] + ") " + game["home"]["nickname"] + (game["status"] == 1 ? "" : " " + game["home"]["score"].to_i.to_s)
+              league_scores << [line1.downcase, line2.downcase]
               num += 1
             end
             scores_out[:leagues][league["league"]] = league_scores
