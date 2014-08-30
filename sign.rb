@@ -22,7 +22,9 @@ class Sign
     end
 
     @lock.synchronize do
-      @scores = scores
+      unless scores.nil?
+        @scores = scores
+      end
     end
   end
 
