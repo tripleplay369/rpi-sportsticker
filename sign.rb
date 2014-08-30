@@ -36,7 +36,7 @@ class Sign
         @scores[:leagues].each do |league_name, league_scores|
           league_scores.each do |score|
             if i == @current_index
-              write_to_sign(LEDBitmap.make_bitmap(score[0], score[1]))
+              write_to_sign(LEDBitmap.make_bitmap(league_name, score))
             end
             i += 1
           end
