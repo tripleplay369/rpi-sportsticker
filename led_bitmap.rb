@@ -66,7 +66,7 @@ class LEDBitmap
     line2_bitmap = get_line_bitmap([score[:status], score[:home], score[:home_score]], [status_len, home_len, home_score_len], [len1, len2, len3], width)
 
     bitmap[:width] = width
-    bitmap[:data] = blank_line(width, -1) + line1_bitmap + blank_line(width, len1) + blank_line(width, len1) + line2_bitmap + blank_line(width, -1)
+    bitmap[:data] = blank_line(width, len1 - 1) + line1_bitmap + blank_line(width, len1) + blank_line(width, len1) + line2_bitmap + blank_line(width, len1 - 1)
     bitmap[:data].gsub!(/ /, "0").gsub!(/8/, "1")
 
     bitmap
