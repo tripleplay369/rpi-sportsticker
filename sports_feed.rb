@@ -4,7 +4,13 @@ require 'cgi'
 
 class SportsFeed
   def self.get_scores
-    my_leagues = ['nfl', 'mlb', 'nba', 'nhl']
+    my_leagues = ['soccer10', 'soccer23', 'mlb', 'nfl', 'nba', 'nhl']
+    league_translation = {'mlb' => 'mlb',
+                          'nfl' => 'nfl',
+                          'nba' => 'nba',
+                          'nhl' => 'nhl',
+                          'soccer10' => 'bundesliga',
+                          'soccer23' => 'epl'}
     scores_out = {leagues:{}}
     num = 0
 
@@ -19,19 +25,18 @@ class SportsFeed
           if my_leagues.include? league["league"]
             league_scores = []
             league["games"].each do |game|
-              away = " " + game["away"]["nickname"] + " " + (game["status"] == 1 ? "at" : "")
+              away_name = game["away"]["nickname"] ? game["away"]["nickname"] : game["away"]["name"]
+              home_name = game["home"]["nickname"] ? game["home"]["nickname"] : game["home"]["name"]
+              away = " " + away_name + " " + (game["status"] == 1 ? "at" : "")
               away_score = (game["status"] == 1 ? "" : game["away"]["score"].to_i.to_s)
               status = ((game["clock"] != nil && game["clock"] != "") ? (game["clock"] + " ") : "") + game["statusText"] + " "
-              if status == "F "
-                status = "FINAL "
-              end
-              home = " " + game["home"]["nickname"] + " "
+              home = " " + home_name + " "
               home_score = (game["status"] == 1 ? "" : game["home"]["score"].to_i.to_s)
 
               league_scores << {away: away.downcase, away_score: away_score.downcase, status: status.downcase, home: home.downcase, home_score: home_score.downcase}
               num += 1
             end
-            scores_out[:leagues][league["league"] + " "] = league_scores
+            scores_out[:leagues][league_translation[league["league"]] + " "] = league_scores
           end
         end
       end
