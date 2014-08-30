@@ -1,8 +1,14 @@
+# encoding: utf-8
 require 'net/http'
 require 'json'
 require 'cgi'
 
 class SportsFeed
+  def self.replace_international_chars(str)
+    str.tr("ÀÁÂÃÄÅàáâãäåĀāĂăĄąÇçĆćĈĉĊċČčÐðĎďĐđÈÉÊËèéêëĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħÌÍÎÏìíîïĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒÓÔÕÖØòóôõöøŌōŎŏŐőŔŕŖŗŘřŚśŜŝŞşŠšſŢţŤťŦŧÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųŴŵÝýÿŶŷŸŹźŻżŽž",
+           "AAAAAAaaaaaaAaAaAaCcCcCcCcCcDdDdDdEEEEeeeeEeEeEeEeEeGgGgGgGgHhHhIIIIiiiiIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnNnnNnOOOOOOooooooOoOoOoRrRrRrSsSsSsSssTtTtTtUUUUuuuuUuUuUuUuUuUuWwYyyYyYZzZzZz")
+  end
+
   def self.get_scores
     my_leagues = ['soccer10', 'soccer23', 'mlb', 'nfl', 'nba', 'nhl']
     league_translation = {'mlb' => 'mlb',
@@ -27,6 +33,8 @@ class SportsFeed
             league["games"].each do |game|
               away_name = game["away"]["nickname"] ? game["away"]["nickname"] : game["away"]["name"]
               home_name = game["home"]["nickname"] ? game["home"]["nickname"] : game["home"]["name"]
+              away_name = replace_international_chars away_name
+              home_name = replace_international_chars home_name
               away = " " + away_name + " " + (game["status"] == 1 ? "at" : "")
               away_score = (game["status"] == 1 ? "" : game["away"]["score"].to_i.to_s)
               status = ((game["clock"] != nil && game["clock"] != "") ? (game["clock"] + " ") : "") + game["statusText"] + " "
