@@ -30,19 +30,22 @@ class Sign
 
   def self.update_sign
     @lock.synchronize do
-      if !@scores.nil? && @scores[:num] > 0
-        @current_index %= @scores[:num]
-        i = 0
-        @scores[:leagues].each do |league_name, league_scores|
-          league_scores.each do |score|
-            if i == @current_index
-              write_to_sign(LEDBitmap.make_bitmap(league_name, score))
+      begin
+        if !@scores.nil? && @scores[:num] > 0
+          @current_index += 1
+          @current_index %= @scores[:num]
+          i = 0
+          @scores[:leagues].each do |league_name, league_scores|
+            league_scores.each do |score|
+              if i == @current_index
+                write_to_sign(LEDBitmap.make_bitmap(league_name, score))
+              end
+              i += 1
             end
-            i += 1
           end
         end
+      rescue
       end
-      @current_index += 1
     end
   end
 
