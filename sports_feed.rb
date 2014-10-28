@@ -20,9 +20,10 @@ class SportsFeed
     scores_out = {leagues:{}}
     num = 0
 
-    url = "http://espn.go.com"
+    url = "http://espn.go.com/aggregator/cached/tea/sbMaster"
     response = Net::HTTP.get_response(URI.parse(url)).body
-    scores_str = response.scan(/var sbMaster = (.*)\n/)[0][0]
+    puts response
+    scores_str = response.scan(/var sbMaster = (.*);/)[0][0]
     scores = JSON.parse(scores_str)
     # puts JSON.pretty_generate(scores)
     scores["sports"].each do |sport_scores|
