@@ -22,7 +22,6 @@ class SportsFeed
 
     url = "http://espn.go.com/aggregator/cached/tea/sbMaster"
     response = Net::HTTP.get_response(URI.parse(url)).body
-    puts response
     scores_str = response.scan(/var sbMaster = (.*);/)[0][0]
     scores = JSON.parse(scores_str)
     # puts JSON.pretty_generate(scores)
