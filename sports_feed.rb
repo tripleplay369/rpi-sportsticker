@@ -9,6 +9,15 @@ class SportsFeed
            "AAAAAAaaaaaaAaAaAaCcCcCcCcCcDdDdDdEEEEeeeeEeEeEeEeEeGgGgGgGgHhHhIIIIiiiiIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnNnnNnOOOOOOooooooOoOoOoRrRrRrSsSsSsSsssTtTtTtUUUUuuuuUuUuUuUuUuUuWwYyyYyYZzZzZz")
   end
 
+  def self.get_name(obj)
+    if !obj["nickname"].nil? && obj["nickname"] != ""
+      return obj["nickname"]
+    elsif !obj["location"].nil? && obj["location"] != ""
+      return obj["location"]
+    end
+    return obj["name"]
+  end
+
   def self.get_scores
     my_leagues = ['soccer10', 'soccer23', 'mlb', 'nfl', 'nba', 'nhl']
     league_translation = {'mlb' => 'mlb',
@@ -31,8 +40,8 @@ class SportsFeed
           if my_leagues.include? league["league"]
             league_scores = []
             league["games"].each do |game|
-              away_name = game["away"]["nickname"] ? game["away"]["nickname"] : game["away"]["name"]
-              home_name = game["home"]["nickname"] ? game["home"]["nickname"] : game["home"]["name"]
+              away_name = get_name(game["away"])
+              home_name = get_name(game["home"])
               away_name = CGI.unescape_html(away_name)
               home_name = CGI.unescape_html(home_name)
               away_name = replace_international_chars away_name
