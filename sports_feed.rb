@@ -2,6 +2,7 @@
 require 'net/http'
 require 'json'
 require 'cgi'
+require 'date'
 
 class SportsFeed
   def self.replace_international_chars(str)
@@ -40,6 +41,9 @@ class SportsFeed
           if my_leagues.include? league["league"]
             league_scores = []
             league["games"].each do |game|
+              game_time = DateTime.strptime(game['date'], '%Y%m%d%H%M%S')
+              next if (game_time - DateTime.now).to_i >= 7
+
               away_name = get_name(game["away"])
               home_name = get_name(game["home"])
               away_name = CGI.unescape_html(away_name)
