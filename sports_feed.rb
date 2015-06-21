@@ -42,7 +42,8 @@ class SportsFeed
             league_scores = []
             league["games"].each do |game|
               game_time = DateTime.strptime(game['date'], '%Y%m%d%H%M%S')
-              next if (game_time - DateTime.now).to_i >= 7
+              days_diff = (game_time - DateTime.now).to_i
+              next if days_diff >= 7 || days_diff <= -7
 
               away_name = get_name(game["away"])
               home_name = get_name(game["home"])
